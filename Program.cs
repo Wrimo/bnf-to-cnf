@@ -27,19 +27,22 @@ class Program
     static string GrammarToString(ref Dictionary<string, List<List<string>>> grammar)
     {
         StringBuilder sb = new StringBuilder();
-        foreach (var item in grammar)
+        var vals = grammar.ToList();
+        for (int i = 0; i < vals.Count; i++)
         {
+            var item = vals[i];
             sb.Append($"{item.Key} -> ");
-            for (int i = 0; i < item.Value.Count; i++)
+            for (int j = 0; j < item.Value.Count; j++)
             {
-                foreach (var sym in item.Value[i])
+                foreach (var sym in item.Value[j])
                 {
                     sb.Append($"{sym} ");
                 }
-                if (i != item.Value.Count - 1)
+                if (j != item.Value.Count - 1)
                     sb.Append("| ");
             }
-            sb.Append("\n");
+            if (i != vals.Count - 1)
+                sb.Append("\n");
         }
         return sb.ToString();
     }
@@ -54,11 +57,11 @@ class Program
             var productions = new List<List<string>>();
             var currentProduction = new List<string>();
 
-            
+
             var words = line.Trim().Split(" ");
             var name = words[0];
             if (words[0] == "#" || words.Length == 1)
-                continue; 
+                continue;
 
             Debug.Assert(words[1] == "::=");
 
